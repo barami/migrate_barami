@@ -1,0 +1,8 @@
+name: Migrate Barami
+type: module
+description: A custom migration to import from barami site.
+core: 8.x
+package: Custom
+dependencies:
+  - migrate
+  - migrate_drupal

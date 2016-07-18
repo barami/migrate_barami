@@ -1,0 +1,31 @@
+id: barami_blog_tag
+migration_tags:
+  - 'Drupal 7'
+migration_group: Barami
+label: 'Blog tag Imports'
+source:
+  plugin: taxonomy_term
+  key: legacy
+  vocabulary:
+    - 3
+process:
+  vid:
+    plugin: default_value
+    default_value: tags
+  name: name
+  weight: weight
+  parent_id:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration
+      migration: barami_blog_tag
+  parent:
+    plugin: default_value
+    default_value: 0
+    source: '@parent_id'
+  changed: timestamp
+destination:
+  plugin: 'entity:taxonomy_term'

@@ -1,0 +1,58 @@
+id: barami_blog_comment
+label: 'Blog comment Imports'
+migration_tags:
+  - 'Drupal 7'
+migration_group: Barami
+source:
+  plugin: d7_comment
+  key: legacy
+process:
+  filtered_type:
+    plugin: static_map
+    source: node_type
+    map:
+      blog: article
+  pid:
+    plugin: migration
+    migration: d7_comment
+    source: pid
+  entity_id:
+    plugin: migration
+    migration: barami_blog
+    source: nid
+  entity_type:
+    plugin: default_value
+    default_value: node
+  comment_type:
+    plugin: default_value
+    default_value: comment
+  field_name:
+    plugin: default_value
+    default_value: comment
+  subject: subject
+  uid: uid
+  name: name
+  mail: mail
+  homepage: homepage
+  hostname: hostname
+  created: created
+  changed: changed
+  status: status
+  thread: thread
+  comment_body:
+    plugin: iterator
+    source: comment_body
+    process:
+      value: value
+      format:
+        plugin: static_map
+        source: format
+        map:
+          filtered_html: restricted_html
+          full_html: full_html
+        default_value: plain_text
+destination:
+  plugin: 'entity:comment'
+migration_dependencies:
+  required:
+    - barami_blog
